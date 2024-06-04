@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danjin Rain</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000; /* Optional: change background color if desired */
+        }
+        .rain {
+            position: absolute;
+            top: -100px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const numberOfDrops = 50; // Number of raining images
+
+        for (let i = 0; i < numberOfDrops; i++) {
+            const img = document.createElement('img');
+            img.src = 'https://wutheringdiary.com/wp-content/uploads/2024/02/Danjin_Visual-removebg-preview-1.png';
+            img.classList.add('rain');
+            img.style.left = `${Math.random() * 100}vw`;
+            img.style.animationDuration = `${Math.random() * 2 + 3}s`; // Random duration between 3 and 5 seconds
+            img.style.opacity = Math.random();
+            img.style.width = `${Math.random() * 50 + 30}px`; // Random width between 30 and 80px
+            document.body.appendChild(img);
+        }
+    </script>
+</body>
+</html>
