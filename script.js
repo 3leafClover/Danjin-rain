@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const images = [
-        { src: 'danjin.png', probability: 0.72931, type: 'base' },  
+        { src: 'danjin.png', probability: 0.82931, type: 'base' },  
         { src: 'danjin-maroon.png', probability: 0.2, type: 'maroon' },  
         { src: 'danjin-green.png', probability: 0.06, type: 'green' },  
-        { src: 'danjin-blue.png', probability: 0.01, type: 'blue' },  
-        { src: 'danjin-rainbow.png', probability: 0.00069, type: 'rainbow' }
+        { src: 'danjin-blue.png', probability: 0.001, type: 'blue' },  
+        { src: 'danjin-rainbow.png', probability: 0.0000069, type: 'rainbow' }
     ];
 
     const explosionGifUrl = 'https://i.gifer.com/origin/62/623cdcca882db2d7efa8d32424a61d29_w200.gif'; // URL of your explosion GIF
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove explosion GIF after it plays (assuming 1 second duration)
         setTimeout(() => {
             container.removeChild(explosion);
-        }, 300);  // Adjust duration as needed
+        },200);  // Adjust duration as needed
     }
 
     function dropImage() {
@@ -106,3 +106,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setInterval(dropImage, 500);  // Drop an image every half second
 });
+
+function playAudioLoop(url) {
+    let audio = new Audio(url);
+    audio.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    audio.play();
+}
+
+playAudioLoop('dj-Nate - Thermodynamix.mp3');
