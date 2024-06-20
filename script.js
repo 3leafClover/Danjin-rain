@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
         rainbow: 0
     };
 
+    let fd = 3000;
+    let fd1 = 6000;
     const images = [
         { src: 'danjin.png', probability: 0.8089931, type: 'base' },  
         { src: 'danjin-maroon.png', probability: 0.13, type: 'maroon' },  
@@ -15,9 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { src: 'danjin-blue.png', probability: 0.001, type: 'blue' },  
         { src: 'danjin-rainbow.png', probability: 0.0000069, type: 'rainbow' }
     ];
-    
 
     const explosionGifUrl = 'https://i.gifer.com/origin/62/623cdcca882db2d7efa8d32424a61d29_w200.gif'; // URL of your explosion GIF
+    let dropImageInterval = 100;
+    let dropImageIntervalId;
 
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -66,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove explosion GIF after it plays (assuming 1 second duration)
         setTimeout(() => {
             container.removeChild(explosion);
-        },200);  // Adjust duration as needed
+        }, 200);  // Adjust duration as needed
     }
 
     function dropImage() {
@@ -91,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         container.appendChild(img);
 
-        const fallDuration = getRandomInt(3000, 6000);  // Fall duration between 3 to 6 seconds
+        const fallDuration = getRandomInt(fd, fd1);  // Adjust fall duration by fd and fd1
         img.style.transition = `transform ${fallDuration}ms linear`;
         requestAnimationFrame(() => {
             img.style.transform = `translateY(${window.innerHeight + parseInt(img.style.width)}px)`;
@@ -106,39 +109,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadCounters(); // Load counters from local storage when the page is loaded
 
-    setInterval(dropImage, 100);  // Drop an image every half second
-});
+    dropImageIntervalId = setInterval(dropImage, dropImageInterval);  // Drop an image every interval
 
-function playAudioLoop(url) {
-    let audio = new Audio(url);
-    audio.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
-    }, false);
-    audio.play();
-}
+    function playAudioLoop(url) {
+        let audio = new Audio(url);
+        audio.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        audio.play();
+    }
 
-playAudioLoop('dj-Nate - Thermodynamix.mp3');
+    playAudioLoop('dj-Nate - Thermodynamix.mp3');
 
+    function flip() {
+        console.log("Event 3: Danjins raining upside down.");
+        container.style.transform = "rotate(180deg)";
 
-function flip() {
-    console.log("Event 3: Danjins raining upside down.");
-    container.style.transform = "rotate(180deg)";
+        setTimeout(() => {
+            container.style.transform = "";
+            console.log("Event 3 ended: Danjins back to normal.");
+        }, 120000); // Lasts for 2 minutes
+    }
 
-    setTimeout(() => {
-        container.style.transform = "";
-        console.log("Event 3 ended: Danjins back to normal.");
-    }, 120000); // Lasts for 2 minutes
-}
+    function speedup() {
+        console.log("Speedup event: Faster spawn rate and falling speed.");
+        clearInterval(dropImageIntervalId);
+        fd = 1500;  // Speed up falling duration
+        fd1 = 300;  // Speed up falling duration
+        dropImageInterval =15;  // Double the spawn rate
 
-function randomEvent() {
-    const events = [flip];
-    const randomIndex = Math.floor(Math.random() * events.length);
-    events[randomIndex]();
-}
+        dropImageIntervalId = setInterval(dropImage, dropImageInterval);
 
-setInterval(randomEvent, 600000); // Trigger a random event every 10 minutes
-document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            clearInterval(dropImageIntervalId);
+            fd = 3000;  // Reset falling duration
+            fd1 = 6000;  // Reset falling duration
+            dropImageInterval = 100;  // Reset spawn rate
+
+            dropImageIntervalId = setInterval(dropImage, dropImageInterval);
+            console.log("Speedup event ended: Reset spawn rate and falling speed.");
+        }, 120000); // Lasts for 2 minutes
+    }
+
+    function randomEvent() {
+        const events = [flip, speedup];
+        const randomIndex = Math.floor(Math.random() * events.length);
+        events[randomIndex]();
+    }
+
+    setInterval(randomEvent, 600000); // Trigger a random event every 10 minutes
+
     const eventCdSpan = document.getElementById('event-cd');
     const eventInterval = 600000; // 10 minutes in milliseconds
     let countdown = eventInterval / 1000; // Convert to seconds
@@ -152,5 +173,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setInterval(updateCountdown, 1000); // Update countdown every second
-});
 
+});
