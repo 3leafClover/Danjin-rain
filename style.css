@@ -22,6 +22,7 @@ body {
     height: 100vh;
     left: -15px;
     top: 1px;
+    animation: ease 3s;
 }
 
 img {
@@ -29,6 +30,8 @@ img {
     will-change: transform;
     cursor: pointer; /* Ensure pointer cursor for clickability */
     -webkit-user-drag: none;
+    animation: ease 3s;
+
 }
 #event-cd{
     position: absolute;

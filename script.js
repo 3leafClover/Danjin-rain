@@ -54,23 +54,33 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-
     function showExplosion(x, y) {
         const explosion = document.createElement('img');
         explosion.src = explosionGifUrl;
         explosion.style.position = 'absolute';
-        explosion.style.left = `${x}px`;
-        explosion.style.top = `${y}px`;
+        
+        // Adjust x and y based on container rotation
+        if (container.style.transform.includes('rotate(180deg)')) {
+            // If container is rotated 180 degrees, invert x and y
+            explosion.style.left = `${window.innerWidth - x - 235}px`;
+            explosion.style.top = `${window.innerHeight - y - 255}px`;
+        } else {
+            // Normal coordinates
+            explosion.style.left = `${x + 35}px`;
+            explosion.style.top = `${y}px`;
+        }
+    
         explosion.style.width = '190px';  // Adjust size as needed
         explosion.style.pointerEvents = 'none';  // Ensure clicks pass through to other elements
-
+    
         container.appendChild(explosion);
-
-        // Remove explosion GIF after it plays (assuming 1 second duration)
+    
+        // Remove explosion GIF after it plays (assuming 200ms duration)
         setTimeout(() => {
             container.removeChild(explosion);
         }, 200);  // Adjust duration as needed
     }
+    
 
     function dropImage() {
         const image = getRandomImage();
@@ -129,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             container.style.transform = "";
             console.log("Event 3 ended: Danjins back to normal.");
-        }, 120000); // Lasts for 2 minutes
+        }, 30000); // Lasts for 2 minutes
     }
 
     function speedup() {
@@ -149,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             dropImageIntervalId = setInterval(dropImage, dropImageInterval);
             console.log("Speedup event ended: Reset spawn rate and falling speed.");
-        }, 120000); // Lasts for 2 minutes
+        }, 30000); // Lasts for 2 minutes
     }
 
     function randomEvent() {
@@ -173,5 +183,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setInterval(updateCountdown, 1000); // Update countdown every second
-
 });
