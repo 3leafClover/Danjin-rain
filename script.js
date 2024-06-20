@@ -158,10 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
         events[randomIndex]();
     }
 
-    setInterval(randomEvent, 600000); // Trigger a random event every 10 minutes
+    setInterval(randomEvent, 300000); // Trigger a random event every 10 minutes
 
     const eventCdSpan = document.getElementById('event-cd');
-    const eventInterval = 600000; // 10 minutes in milliseconds
+    const eventInterval = 300000; // 10 minutes in milliseconds
     let countdown = eventInterval / 1000; // Convert to seconds
 
     function updateCountdown() {
