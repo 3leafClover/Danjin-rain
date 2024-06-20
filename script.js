@@ -9,12 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const images = [
-        { src: 'danjin.png', probability: 0.82931, type: 'base' },  
-        { src: 'danjin-maroon.png', probability: 0.2, type: 'maroon' },  
+        { src: 'danjin.png', probability: 0.8089931, type: 'base' },  
+        { src: 'danjin-maroon.png', probability: 0.13, type: 'maroon' },  
         { src: 'danjin-green.png', probability: 0.06, type: 'green' },  
         { src: 'danjin-blue.png', probability: 0.001, type: 'blue' },  
         { src: 'danjin-rainbow.png', probability: 0.0000069, type: 'rainbow' }
     ];
+    
 
     const explosionGifUrl = 'https://i.gifer.com/origin/62/623cdcca882db2d7efa8d32424a61d29_w200.gif'; // URL of your explosion GIF
 
@@ -72,7 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const image = getRandomImage();
         const img = document.createElement('img');
         img.src = image.src;
-        img.style.width = `${getRandomInt(110, 150)}px`;
+        img.style.width = `${getRandomInt(70, 150)}px`;
+        img.style.opacity = `${getRandomInt(57, 100)}%`;
         img.style.left = `${getRandomInt(0, window.innerWidth - 100)}px`;
         img.style.top = `-${img.style.width}`;
 
@@ -104,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadCounters(); // Load counters from local storage when the page is loaded
 
-    setInterval(dropImage, 500);  // Drop an image every half second
+    setInterval(dropImage, 100);  // Drop an image every half second
 });
 
 function playAudioLoop(url) {
@@ -117,3 +119,38 @@ function playAudioLoop(url) {
 }
 
 playAudioLoop('dj-Nate - Thermodynamix.mp3');
+
+
+function flip() {
+    console.log("Event 3: Danjins raining upside down.");
+    container.style.transform = "rotate(180deg)";
+
+    setTimeout(() => {
+        container.style.transform = "";
+        console.log("Event 3 ended: Danjins back to normal.");
+    }, 120000); // Lasts for 2 minutes
+}
+
+function randomEvent() {
+    const events = [flip];
+    const randomIndex = Math.floor(Math.random() * events.length);
+    events[randomIndex]();
+}
+
+setInterval(randomEvent, 600000); // Trigger a random event every 10 minutes
+document.addEventListener('DOMContentLoaded', () => {
+    const eventCdSpan = document.getElementById('event-cd');
+    const eventInterval = 600000; // 10 minutes in milliseconds
+    let countdown = eventInterval / 1000; // Convert to seconds
+
+    function updateCountdown() {
+        eventCdSpan.textContent = `Next event in: ${countdown} seconds`;
+        countdown--;
+        if (countdown < 0) {
+            countdown = eventInterval / 1000; // Reset countdown to 10 minutes in seconds
+        }
+    }
+
+    setInterval(updateCountdown, 1000); // Update countdown every second
+});
+

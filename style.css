@@ -3,6 +3,7 @@ body {
     color: white;
     font-family: 'Courier New', Courier, monospace;
     overflow: hidden;
+    user-select: none;
 }
 
 #counter {
@@ -28,4 +29,9 @@ img {
     will-change: transform;
     cursor: pointer; /* Ensure pointer cursor for clickability */
     -webkit-user-drag: none;
+}
+#event-cd{
+    position: absolute;
+    right: 35px; 
+    top: 35px;
 }
